@@ -1,0 +1,16 @@
+# File: netlify.toml
+
+# Impostazioni di base per il build
+[build]
+  # La cartella che Netlify pubblicherà. Lasciamo la radice poiché abbiamo solo un file HTML.
+  publish = "/"
+  # La cartella dove si trovano le nostre Netlify Functions.
+  functions = "netlify/functions"
+
+# Regola di reindirizzamento per l'API
+# Questo permette al nostro JavaScript di chiamare "/api/analyze"
+# e Netlify reindirizzerà la richiesta alla nostra funzione serverless.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
