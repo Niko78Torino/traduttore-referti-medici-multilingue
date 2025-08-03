@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizzatore di Referti Medici</title>
+
+    <!-- PWA & SEO Tags -->
+    <meta name="description" content="Analizza i tuoi referti medici e ricette con l'IA per una spiegazione semplice e chiara.">
+    <meta name="theme-color" content="#3b82f6"/>
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/3b82f6/FFFFFF?text=Icon">
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268426852108056"
+     crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .loader {
+            border-top-color: #3498db;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .result-card {
+            margin-top: 1.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            background-color: #f9fafb;
+        }
+        .result-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            border-bottom: 1px solid #d1d5db;
+            padding-bottom: 0.5rem;
+        }
+        .result-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        .result-card ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        .result-card li {
+            margin-bottom: 0.5rem;
+        }
+         .result-card strong {
+            font-weight: 600;
+            color: #111827;
+        }
+        .donation-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 700;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .donation-button:hover {
+            background-color: #2563eb;
+        }
+        .donation-button svg {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto max-w-3xl p-4 sm:p-6 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Analizzatore di Referti Medici</h1>
+            <p class="mt-2 text-md sm:text-lg text-gray-600">Carica una o più foto dei tuoi referti o ricette per una spiegazione semplice.</p>
+        </header>
+
+        <main>
+            <!-- Upload Area -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-12">
+                <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all duration-300">
+                    <input type="file" id="file-input" class="hidden" accept="image/*" multiple>
+                    <div class="flex flex-col items-center">
+                        <svg class="w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                        <p class="mt-4 text-lg font-semibold text-gray-700">Trascina immagini qui o clicca per selezionare</p>
+                        <p class="mt-1 text-sm text-gray-500">PNG, JPG, GIF, WEBP</p>
+                    </div>
+                </div>
+                <div id="file-list-container" class="mt-4">
+                    <!-- Selected files will be listed here -->
+                </div>
+                <div id="controls-container" class="hidden mt-4 text-center">
+                     <!-- Language Selector -->
+                     <div class="mb-4 text-left">
+                        <label for="language-select" class="block text-sm font-medium text-gray-700 mb-1">Seleziona la lingua di output:</label>
+                        <select id="language-select" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="italiano" selected>Italiano</option>
+                            <option value="albanese">Albanese</option>
+                            <option value="arabo">Arabo</option>
+                            <option value="cinese">Cinese</option>
+                            <option value="francese">Francese</option>
+                            <option value="giapponese">Giapponese</option>
+                            <option value="inglese">Inglese</option>
+                            <option value="portoghese">Portoghese</option>
+                            <option value="rumeno">Rumeno</option>
+                            <option value="russo">Russo</option>
+                            <option value="tedesco">Tedesco</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Payment and Analysis Buttons -->
+                    <div id="payment-container" class="hidden p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <p class="text-gray-800 font-semibold mb-2">Supporta questo strumento</p>
+                        <p class="text-sm text-gray-600 mb-4">Una piccola donazione aiuta a coprire i costi per il mantenimento del sito. Clicca il link qui sotto per contribuire, poi torna e procedi con l'analisi.</p>
+                        
+                        <!-- Stripe Donation Link -->
+                        <a href="https://buy.stripe.com/3cI14p0Kd5ha8Ji55gdjO01" target="_blank" rel="noopener noreferrer" class="donation-button mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            Fai una donazione per il mantenimento
+                        </a>
+
+                        <button id="payment-complete-button" class="w-full mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300">
+                            Ho completato, procedi con l'analisi
+                        </button>
+                    </div>
+
+                    <button id="analyze-button" class="hidden w-full px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                        Analizza Immagini
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Area -->
+            <div id="result-container" class="mb-12">
+                 <!-- Loader -->
+                <div id="loader" class="hidden items-center justify-center flex-col my-6">
+                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                    <p id="loader-text" class="text-lg font-medium text-gray-600">Analisi in corso...</p>
+                </div>
+                <!-- Content -->
+                <div id="result-content"></div>
+                <!-- Error Message -->
+                <div id="error-message" class="hidden p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg"></div>
+                 <!-- Reset Button Container -->
+                <div id="reset-button-container" class="hidden mt-6 text-center">
+                    <button id="reset-button" class="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-colors duration-300">
+                        Analizza Nuovi Referti (Reset)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div id="disclaimer" class="mb-12 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
+                <h3 class="font-bold">Disclaimer Importante</h3>
+                <p class="mt-1 text-sm">Questa applicazione fornisce una spiegazione generata da un'intelligenza artificiale e non sostituisce in alcun modo il parere di un medico. Le informazioni non devono essere usate per autodiagnosi o automedicazione. Consulta sempre il tuo medico per qualsiasi questione relativa alla tua salute.</p>
+            </div>
+        </main>
+
+        <footer class="text-center mt-16 mb-6">
+            <p class="text-sm text-gray-500">&copy; 2025 Nicola Nicolaci. Tutti i diritti riservati.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // --- PWA Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('Service Worker registrato con successo:', registration);
+                }).catch(error => {
+                    console.log('Registrazione Service Worker fallita:', error);
+                });
+            });
+        }
+
+        // DOM Elements
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileListContainer = document.getElementById('file-list-container');
+        const controlsContainer = document.getElementById('controls-container');
+        const analyzeButton = document.getElementById('analyze-button');
+        const paymentContainer = document.getElementById('payment-container');
+        const paymentCompleteButton = document.getElementById('payment-complete-button');
+        const languageSelect = document.getElementById('language-select');
+        const resultContainer = document.getElementById('result-container');
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loader-text');
+        const resultContent = document.getElementById('result-content');
+        const errorMessage = document.getElementById('error-message');
+        const resetButtonContainer = document.getElementById('reset-button-container');
+        const resetButton = document.getElementById('reset-button');
+        
+        let selectedFiles = [];
+
+        // --- PAYMENT LOGIC ---
+        paymentCompleteButton.addEventListener('click', () => {
+            paymentContainer.classList.add('hidden');
+            analyzeButton.classList.remove('hidden');
+        });
+        
+        // --- FILE UPLOAD LOGIC ---
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            uploadArea.classList.add('border-blue-500', 'bg-blue-50');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('border-blue-500', 'bg-blue-50');
+        });
+        uploadArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            uploadArea.classList.remove('border-blue-500', 'bg-blue-50');
+            handleFiles(event.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (event) => {
+            handleFiles(event.target.files);
+        });
+
+        // --- ANALYSIS LOGIC ---
+        analyzeButton.addEventListener('click', async () => {
+            if (selectedFiles.length === 0) return;
+
+            loader.style.display = 'flex';
+            resultContent.innerHTML = '';
+            errorMessage.classList.add('hidden');
+            errorMessage.textContent = '';
+            analyzeButton.disabled = true;
+            
+            const selectedLanguage = languageSelect.value;
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                loaderText.textContent = `Analisi in corso: ${file.name} (${i + 1} di ${selectedFiles.length})...`;
+                try {
+                    const analysisResult = await analyzeSingleFile(file, selectedLanguage);
+                    const resultCard = document.createElement('div');
+                    resultCard.className = 'result-card';
+                    resultCard.innerHTML = `<h2>Risultati per: ${file.name}</h2>` + analysisResult;
+                    resultContent.appendChild(resultCard);
+                } catch (error) {
+                    const errorCard = document.createElement('div');
+                    errorCard.className = 'result-card';
+                    errorCard.innerHTML = `
+                        <h2>Errore nell'analisi di: ${file.name}</h2>
+                        <p class="text-red-600">${error.message}</p>
+                    `;
+                    resultContent.appendChild(errorCard);
+                }
+            }
+            
+            loader.style.display = 'none';
+            analyzeButton.disabled = false;
+            
+            if (resultContent.innerHTML.trim() !== '') {
+                resetButtonContainer.classList.remove('hidden');
+            }
+        });
+
+        // --- RESET LOGIC ---
+        resetButton.addEventListener('click', () => {
+            selectedFiles = [];
+            fileInput.value = '';
+            fileListContainer.innerHTML = '';
+            resultContent.innerHTML = '';
+            errorMessage.textContent = '';
+            errorMessage.classList.add('hidden');
+            controlsContainer.classList.add('hidden');
+            resetButtonContainer.classList.add('hidden');
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            });
+            renderFileList();
+        }
+
+        function renderFileList() {
+            fileListContainer.innerHTML = '';
+            if (selectedFiles.length > 0) {
+                const list = document.createElement('ul');
+                list.className = 'space-y-2';
+                selectedFiles.forEach((file, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex items-center justify-between bg-gray-100 p-2 rounded-md';
+                    listItem.innerHTML = `
+                        <span class="text-gray-700 text-sm font-medium truncate">${file.name}</span>
+                        <button data-index="${index}" class="remove-file-btn ml-2 p-1 text-gray-500 hover:text-red-600 focus:outline-none">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    `;
+                    list.appendChild(listItem);
+                });
+                fileListContainer.appendChild(list);
+                controlsContainer.classList.remove('hidden');
+                paymentContainer.classList.remove('hidden');
+                analyzeButton.classList.add('hidden');
+            } else {
+                controlsContainer.classList.add('hidden');
+            }
+        }
+        
+        fileListContainer.addEventListener('click', function(event) {
+            const removeButton = event.target.closest('.remove-file-btn');
+            if (removeButton) {
+                const indexToRemove = parseInt(removeButton.dataset.index, 10);
+                selectedFiles.splice(indexToRemove, 1);
+                renderFileList();
+            }
+        });
+
+        async function analyzeSingleFile(imageFile, language) {
+            try {
+                const base64ImageData = await toBase64(imageFile);
+                const imagePart = {
+                    inlineData: {
+                        mimeType: imageFile.type,
+                        data: base64ImageData
+                    }
+                };
+
+                const prompt = `
+                    Analizza l'immagine di questo referto medico o ricetta in modo approfondito. Il tuo obiettivo è spiegare le problematiche riscontrate al paziente.
+                    1. **Trascrizione del Contenuto:** Prima di tutto, trascrivi il testo essenziale del documento per dare contesto.
+                    2. **Identificazione delle Problematiche:** Analizza i valori, le diagnosi o le prescrizioni. Identifica quali sono i punti critici o le problematiche principali (es. valori fuori norma, diagnosi di una patologia, interazioni tra farmaci prescritti).
+                    3. **Spiegazione Semplice:** Spiega ogni problematica identificata in un linguaggio chiaro, semplice e diretto, come se parlassi a un paziente che non ha conoscenze mediche. Evita il gergo tecnico il più possibile.
+                    4. **Organizzazione:** Struttura la risposta in formato Markdown con le seguenti sezioni:
+                        - ### Riepilogo del Contenuto
+                        - ### Analisi delle Problematiche
+                        - ### Spiegazione dei Termini Chiave
+                    Non includere avvisi o disclaimer nella tua risposta, verranno aggiunti dall'applicazione. Se l'immagine non è un documento medico o non è leggibile, rispondi con un messaggio che lo segnali. Usa h3 (###) per i titoli delle sezioni.
+                    Rispondi esclusivamente nella seguente lingua: ${language}.
+                `;
+
+                const frontendPayload = {
+                    contents: [{
+                        role: "user",
+                        parts: [{ text: prompt }, imagePart]
+                    }],
+                };
+
+                const apiUrl = '/.netlify/functions/analyze';
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(frontendPayload)
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    throw new Error(`Errore dal server: ${errorBody.error}`);
+                }
+
+                const result = await response.json();
+                
+                return marked.parse(result.text);
+
+            } catch (error) {
+                console.error('Errore durante l'analisi:', error);
+                throw error;
+            }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html>

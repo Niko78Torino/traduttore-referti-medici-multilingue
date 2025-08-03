@@ -1,0 +1,27 @@
+{
+  "name": "Analizzatore di Referti Medici",
+  "short_name": "Analizzatore Referti",
+  "description": "Carica una foto dei tuoi referti o ricette per una spiegazione semplice.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#1f2937",
+  "icons": [
+    {
+      "src": "https://placehold.co/192x192/3b82f6/ffffff?text=AR",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://placehold.co/512x512/3b82f6/ffffff?text=AR",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "https://placehold.co/512x512/3b82f6/ffffff?text=AR&maskable=1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
