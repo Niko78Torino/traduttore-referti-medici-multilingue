@@ -5,22 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analizzatore di Referti Medici</title>
 
-    <!-- PWA & SEO Tags -->
+    <!-- SEO & PWA Meta Tags -->
     <meta name="description" content="Analizza i tuoi referti medici e ricette con l'IA per una spiegazione semplice e chiara.">
     <meta name="theme-color" content="#3b82f6"/>
+    <meta name="google-adsense-account" content="ca-pub-8268426852108056">
     <link rel="apple-touch-icon" href="https://placehold.co/180x180/3b82f6/FFFFFF?text=Icon">
-    <link rel="manifest" href="manifest.json">
-
+    
+    <!-- Styles and Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268426852108056"
      crossorigin="anonymous"></script>
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         .loader {
-            border-top-color: #3498db;
+            border-top-color: #3b82f6;
             -webkit-animation: spin 1s linear infinite;
             animation: spin 1s linear infinite;
         }
@@ -38,6 +43,7 @@
             border-radius: 0.75rem;
             padding: 1.5rem;
             background-color: #f9fafb;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .result-card h2 {
             font-size: 1.5rem;
@@ -63,7 +69,7 @@
         .result-card li {
             margin-bottom: 0.5rem;
         }
-         .result-card strong {
+        .result-card strong {
             font-weight: 600;
             color: #111827;
         }
@@ -114,39 +120,39 @@
                 <div id="controls-container" class="hidden mt-4 text-center">
                      <!-- Language Selector -->
                      <div class="mb-4 text-left">
-                        <label for="language-select" class="block text-sm font-medium text-gray-700 mb-1">Seleziona la lingua di output:</label>
-                        <select id="language-select" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="italiano" selected>Italiano</option>
-                            <option value="albanese">Albanese</option>
-                            <option value="arabo">Arabo</option>
-                            <option value="cinese">Cinese</option>
-                            <option value="francese">Francese</option>
-                            <option value="giapponese">Giapponese</option>
-                            <option value="inglese">Inglese</option>
-                            <option value="portoghese">Portoghese</option>
-                            <option value="rumeno">Rumeno</option>
-                            <option value="russo">Russo</option>
-                            <option value="tedesco">Tedesco</option>
-                        </select>
-                    </div>
+                         <label for="language-select" class="block text-sm font-medium text-gray-700 mb-1">Seleziona la lingua di output:</label>
+                         <select id="language-select" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                             <option value="italiano" selected>Italiano</option>
+                             <option value="albanese">Albanese</option>
+                             <option value="arabo">Arabo</option>
+                             <option value="cinese">Cinese</option>
+                             <option value="francese">Francese</option>
+                             <option value="giapponese">Giapponese</option>
+                             <option value="inglese">Inglese</option>
+                             <option value="portoghese">Portoghese</option>
+                             <option value="rumeno">Rumeno</option>
+                             <option value="russo">Russo</option>
+                             <option value="tedesco">Tedesco</option>
+                         </select>
+                     </div>
                     
-                    <!-- Payment and Analysis Buttons -->
-                    <div id="payment-container" class="hidden p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <p class="text-gray-800 font-semibold mb-2">Supporta questo strumento</p>
-                        <p class="text-sm text-gray-600 mb-4">Una piccola donazione aiuta a coprire i costi per il mantenimento del sito. Clicca il link qui sotto per contribuire, poi torna e procedi con l'analisi.</p>
-                        
-                        <!-- Stripe Donation Link -->
-                        <a href="https://buy.stripe.com/3cI14p0Kd5ha8Ji55gdjO01" target="_blank" rel="noopener noreferrer" class="donation-button mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                            Fai una donazione per il mantenimento
-                        </a>
+                     <!-- Payment and Analysis Buttons -->
+                     <div id="payment-container" class="hidden p-4 bg-blue-50 rounded-lg border border-blue-200">
+                         <p class="text-gray-800 font-semibold mb-2">Supporta questo strumento</p>
+                         <p class="text-sm text-gray-600 mb-4">Una piccola donazione aiuta a coprire i costi per il mantenimento del sito. Clicca il link qui sotto per contribuire, poi torna e procedi con l'analisi.</p>
+                         
+                         <!-- Stripe Donation Link -->
+                         <a href="https://buy.stripe.com/3cI14p0Kd5ha8Ji55gdjO01" target="_blank" rel="noopener noreferrer" class="donation-button mb-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                             Fai una donazione per il mantenimento
+                         </a>
 
-                        <button id="payment-complete-button" class="w-full mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300">
-                            Ho completato, procedi con l'analisi
-                        </button>
-                    </div>
+                         <button id="payment-complete-button" class="w-full mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300">
+                             Ho completato, procedi con l'analisi
+                         </button>
+                     </div>
 
-                    <button id="analyze-button" class="hidden w-full px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    <button id="analyze-button" class="hidden w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
                         Analizza Immagini
                     </button>
                 </div>
@@ -154,7 +160,7 @@
 
             <!-- Results Area -->
             <div id="result-container" class="mb-12">
-                 <!-- Loader -->
+                <!-- Loader -->
                 <div id="loader" class="hidden items-center justify-center flex-col my-6">
                     <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
                     <p id="loader-text" class="text-lg font-medium text-gray-600">Analisi in corso...</p>
@@ -164,11 +170,11 @@
                 <!-- Error Message -->
                 <div id="error-message" class="hidden p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg"></div>
                  <!-- Reset Button Container -->
-                <div id="reset-button-container" class="hidden mt-6 text-center">
-                    <button id="reset-button" class="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-colors duration-300">
-                        Analizza Nuovi Referti (Reset)
-                    </button>
-                </div>
+                 <div id="reset-button-container" class="hidden mt-6 text-center">
+                     <button id="reset-button" class="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-colors duration-300">
+                         Analizza Nuovi Referti (Reset)
+                     </button>
+                 </div>
             </div>
 
             <!-- Disclaimer -->
@@ -183,20 +189,10 @@
         </footer>
     </div>
 
+    <!-- Marked.js for Markdown to HTML conversion -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        // --- PWA Service Worker Registration ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('Service Worker registrato con successo:', registration);
-                }).catch(error => {
-                    console.log('Registrazione Service Worker fallita:', error);
-                });
-            });
-        }
-
-        // DOM Elements
+        // --- DOM Elements ---
         const uploadArea = document.getElementById('upload-area');
         const fileInput = document.getElementById('file-input');
         const fileListContainer = document.getElementById('file-list-container');
@@ -243,6 +239,7 @@
         analyzeButton.addEventListener('click', async () => {
             if (selectedFiles.length === 0) return;
 
+            // Show loader and clear previous results
             loader.style.display = 'flex';
             resultContent.innerHTML = '';
             errorMessage.classList.add('hidden');
@@ -251,6 +248,7 @@
             
             const selectedLanguage = languageSelect.value;
 
+            // Process each file sequentially
             for (let i = 0; i < selectedFiles.length; i++) {
                 const file = selectedFiles[i];
                 loaderText.textContent = `Analisi in corso: ${file.name} (${i + 1} di ${selectedFiles.length})...`;
@@ -258,9 +256,11 @@
                     const analysisResult = await analyzeSingleFile(file, selectedLanguage);
                     const resultCard = document.createElement('div');
                     resultCard.className = 'result-card';
-                    resultCard.innerHTML = `<h2>Risultati per: ${file.name}</h2>` + analysisResult;
+                    // Use marked.parse to convert Markdown response to HTML
+                    resultCard.innerHTML = `<h2>Risultati per: ${file.name}</h2>` + marked.parse(analysisResult);
                     resultContent.appendChild(resultCard);
                 } catch (error) {
+                    // Display error in a card if analysis fails for a file
                     const errorCard = document.createElement('div');
                     errorCard.className = 'result-card';
                     errorCard.innerHTML = `
@@ -271,27 +271,36 @@
                 }
             }
             
+            // Hide loader and re-enable button
             loader.style.display = 'none';
             analyzeButton.disabled = false;
             
+            // Show the reset button if there are any results
             if (resultContent.innerHTML.trim() !== '') {
                 resetButtonContainer.classList.remove('hidden');
+                resultContent.scrollIntoView();
             }
         });
 
         // --- RESET LOGIC ---
         resetButton.addEventListener('click', () => {
             selectedFiles = [];
-            fileInput.value = '';
+            fileInput.value = ''; // Clear the file input
             fileListContainer.innerHTML = '';
             resultContent.innerHTML = '';
             errorMessage.textContent = '';
             errorMessage.classList.add('hidden');
             controlsContainer.classList.add('hidden');
             resetButtonContainer.classList.add('hidden');
+            // Reset payment flow visibility
+            paymentContainer.classList.add('hidden');
+            analyzeButton.classList.add('hidden');
         });
 
+        // --- HELPER FUNCTIONS ---
+
         function handleFiles(files) {
+            // Add new files, avoiding duplicates
             Array.from(files).forEach(file => {
                 if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
                     selectedFiles.push(file);
@@ -318,6 +327,7 @@
                 });
                 fileListContainer.appendChild(list);
                 controlsContainer.classList.remove('hidden');
+                // Show payment container first
                 paymentContainer.classList.remove('hidden');
                 analyzeButton.classList.add('hidden');
             } else {
@@ -325,6 +335,7 @@
             }
         }
         
+        // Add event listener to the container for delegation
         fileListContainer.addEventListener('click', function(event) {
             const removeButton = event.target.closest('.remove-file-btn');
             if (removeButton) {
@@ -334,9 +345,21 @@
             }
         });
 
+        /**
+         * Analyzes a single image file by calling the Gemini API.
+         * @param {File} imageFile The image file to analyze.
+         * @param {string} language The target language for the response.
+         * @returns {Promise<string>} A promise that resolves to the AI's analysis in Markdown format.
+         */
         async function analyzeSingleFile(imageFile, language) {
+            // This is a placeholder for your API key.
+            // In a real-world scenario, this should be handled securely.
+            const apiKey = ""; // Leave this empty, the environment will handle it.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
             try {
                 const base64ImageData = await toBase64(imageFile);
+                
                 const imagePart = {
                     inlineData: {
                         mimeType: imageFile.type,
@@ -350,47 +373,59 @@
                     2. **Identificazione delle Problematiche:** Analizza i valori, le diagnosi o le prescrizioni. Identifica quali sono i punti critici o le problematiche principali (es. valori fuori norma, diagnosi di una patologia, interazioni tra farmaci prescritti).
                     3. **Spiegazione Semplice:** Spiega ogni problematica identificata in un linguaggio chiaro, semplice e diretto, come se parlassi a un paziente che non ha conoscenze mediche. Evita il gergo tecnico il più possibile.
                     4. **Organizzazione:** Struttura la risposta in formato Markdown con le seguenti sezioni:
-                        - ### Riepilogo del Contenuto
-                        - ### Analisi delle Problematiche
-                        - ### Spiegazione dei Termini Chiave
+                       - ### Riepilogo del Contenuto
+                       - ### Analisi delle Problematiche
+                       - ### Spiegazione dei Termini Chiave
                     Non includere avvisi o disclaimer nella tua risposta, verranno aggiunti dall'applicazione. Se l'immagine non è un documento medico o non è leggibile, rispondi con un messaggio che lo segnali. Usa h3 (###) per i titoli delle sezioni.
                     Rispondi esclusivamente nella seguente lingua: ${language}.
                 `;
 
-                const frontendPayload = {
+                const payload = {
                     contents: [{
                         role: "user",
                         parts: [{ text: prompt }, imagePart]
                     }],
                 };
 
-                const apiUrl = '/.netlify/functions/analyze';
-
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(frontendPayload)
+                    body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
                     const errorBody = await response.json();
-                    throw new Error(`Errore dal server: ${errorBody.error}`);
+                    console.error('API Error Response:', errorBody);
+                    throw new Error(`Errore dal server (${response.status}): ${errorBody.error?.message || 'Dettagli non disponibili.'}`);
                 }
 
                 const result = await response.json();
-                
-                return marked.parse(result.text);
+
+                // Extract the text from the API response
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    console.error('Unexpected API response structure:', result);
+                    throw new Error("La risposta dell'IA non è nel formato previsto. Riprova.");
+                }
 
             } catch (error) {
-                console.error('Errore durante l'analisi:', error);
+                console.error('Errore durante l\'analisi:', error);
+                // Re-throw the error to be caught by the calling function
                 throw error;
             }
         }
 
+        /**
+         * Converts a File object to a Base64 encoded string.
+         * @param {File} file The file to convert.
+         * @returns {Promise<string>} A promise that resolves with the Base64 string.
+         */
         function toBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
+                // Resolve with the Base64 data, removing the data URI prefix
                 reader.onload = () => resolve(reader.result.split(',')[1]);
                 reader.onerror = error => reject(error);
             });
